@@ -48,10 +48,12 @@ jobs:
       - name: Push Changes
         run: |
           echo "Starting this part 1"
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
           echo "Starting this part 2"
-          cp -r packages/docs/apis/* clonedFolder/ -f
+          mkdir -p clonedFolder/packages/docs/apis
+          cp -r packages/docs/apis/* clonedFolder/packages/docs/apis/ -f
           cd clonedFolder
           git add .
           git commit -m "this is a test"
           git push
+        
