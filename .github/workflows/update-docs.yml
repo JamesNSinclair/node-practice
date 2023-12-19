@@ -34,7 +34,7 @@ jobs:
       - name: Push Changes
         run: |
           git remote add other_repo https://github.com/jamesnsinclair/pern-todo.git
-          git push other_repo
+          git push other_repo master
 
       - name: Create Pull Request
         run: |
