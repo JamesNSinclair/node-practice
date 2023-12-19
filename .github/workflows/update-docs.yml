@@ -41,8 +41,8 @@ jobs:
           ACCESS_TOKEN=${{ secrets.GH_TOKEN }}
           REPO_OWNER="JamesNSinclair"
           REPO_NAME="pern-todo"
-          BASE_BRANCH="master"
-          HEAD_BRANCH="master"
+          BASE_BRANCH="main"
+          HEAD_BRANCH="main"
           PR_RESPONSE=$(curl -X POST \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
