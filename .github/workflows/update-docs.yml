@@ -38,11 +38,11 @@ jobs:
 
       - name: Create Pull Request
         run: |
-          ACCESS_TOKEN=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
-          REPO_OWNER=JamesNSinclair
-          REPO_NAME=pern-todo
-          BASE_BRANCH=master
-          HEAD_BRANCH=master
+          ACCESS_TOKEN="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"
+          REPO_OWNER="JamesNSinclair"
+          REPO_NAME="pern-todo"
+          BASE_BRANCH="master"
+          HEAD_BRANCH="master"
 
           PR_RESPONSE=$(curl -X POST \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
