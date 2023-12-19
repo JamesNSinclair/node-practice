@@ -15,15 +15,19 @@ jobs:
 
       - name: Generate or Update Documents
         run: |
+          echo "Starting this part 1"
+
       - name: Create directories
         run: "mkdir -p packages/docs/apis"
 
       - name: Create Lorem Ipsum JSON file
         run: |
           echo '{"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
+
       - name: Print GitHub Token
         run: |
-         echo "GitHub Token: ${{ secrets.GH_TOKEN }}"
+          echo "GitHub Token: ${{ secrets.GH_TOKEN }}"
+
       - name: Commit Changes
         run: |
           git config --global user.name "GitHub Actions"
@@ -33,20 +37,20 @@ jobs:
 
       - name: Remove Existing Remote
         run: |
-            echo "Starting this part 7"
-            REMOTE_NAME="other_repo"
+          echo "Starting this part 7"
+          REMOTE_NAME="other_repo"
         
-            if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
-              echo "Removing existing remote"
-              git remote remove $REMOTE_NAME
-            fi
+          if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
+            echo "Removing existing remote"
+            git remote remove $REMOTE_NAME
+          fi
 
       - name: Push Changes
         run: |
-         echo "Starting this part 1"
+          echo "Starting this part 1"
           git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo
           echo "Starting this part 2"
-          cp packages/docs/apis/* clonedFolder/ -f
+          cp -r packages/docs/apis/* clonedFolder/ -f
           cd clonedFolder
           git add .
           git commit -m "this is a test"
