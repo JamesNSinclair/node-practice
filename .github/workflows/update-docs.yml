@@ -15,8 +15,6 @@ jobs:
 
       - name: Generate or Update Documents
         run: |
-          # Add your document generation or update commands here 
-
       - name: Create directories
         run: "mkdir -p packages/docs/apis"
 
