@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      
-
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -40,11 +38,11 @@ jobs:
 
       - name: Create Pull Request
         run: |
-          ACCESS_TOKEN="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"
+          ACCESS_TOKEN=${{ secrets.GH_TOKEN }}
           REPO_OWNER="JamesNSinclair"
           REPO_NAME="pern-todo"
-          BASE_BRANCH="main"
-          HEAD_BRANCH="main"
+          BASE_BRANCH="master"
+          HEAD_BRANCH="master"
           PR_RESPONSE=$(curl -X POST \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
