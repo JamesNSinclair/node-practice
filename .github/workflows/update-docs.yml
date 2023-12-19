@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      
+
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -31,26 +33,14 @@ jobs:
           git add .
           git diff-index --quiet HEAD || git commit -m "Add or update API docs [skip ci]"
 
-      - name: Debug: Check Git Status
-        run: |
-          git status
-
-      - name: Debug: Show Git Diff
-        run: |
-          git diff
-
       - name: Push Changes
         run: |
           git remote add other_repo https://github.com/jamesnsinclair/pern-todo.git
           git push other_repo
 
-      - name: Debug: Show Remote Repositories
-        run: |
-          git remote -v
-
       - name: Create Pull Request
         run: |
-          ACCESS_TOKEN="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"
+          ACCESS_TOKEN="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"
           REPO_OWNER="JamesNSinclair"
           REPO_NAME="pern-todo"
           BASE_BRANCH="master"
