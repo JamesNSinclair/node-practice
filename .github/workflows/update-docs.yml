@@ -40,7 +40,7 @@ jobs:
 
       - name: Create Pull Request
         run: |
-          ACCESS_TOKEN="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"
+          ACCESS_TOKEN="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"
           REPO_OWNER="JamesNSinclair"
           REPO_NAME="pern-todo"
           BASE_BRANCH="main"
