@@ -41,7 +41,7 @@ jobs:
         run: |
           echo "Starting this part 3"
           ACCESS_TOKEN=${{ secrets.GH_TOKEN }}
-          REPO_OWNER="JamesNSinclair@gmail.com"
+          REPO_OWNER="JamesNSinclair@gmail.com@github.com"
           REPO_NAME="pern-todo"
           BASE_BRANCH="main"
           HEAD_BRANCH="main"
