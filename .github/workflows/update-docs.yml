@@ -1,0 +1,53 @@
+name: Update API Docs and Create PR
+
+on:
+  push:
+    branches:
+      - main  # Adjust this branch based on your main branch name
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Generate or Update Documents
+        run: |
+          # Add your document generation or update commands here 
+
+      - name: Create directories
+        run: mkdir -p packages/docs/apis
+
+      - name: Create Lorem Ipsum JSON file
+        run: echo '{"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
+
+      - name: Commit Changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Add or update API docs [skip ci]"
+
+      - name: Push Changes
+        run: |
+          git remote add other_repo https://github.com/jamesnsinclair/pern-todo
+          git push other_repo master
+
+      - name: Create Pull Request
+        run: |
+          ACCESS_TOKEN=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
+          REPO_OWNER=JamesNSinclair
+          REPO_NAME=pern-todo
+          BASE_BRANCH=master
+          HEAD_BRANCH=master
+
+          PR_RESPONSE=$(curl -X POST \
+            -H "Authorization: Bearer $ACCESS_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/pulls \
+            -d '{"title":"Add or Update API docs","body":"This PR adds or updates the API documentation.\n\nPlease run the linter on the doc and fix any linting issues before merging. The lint command can be run locally by setting up the project and running npm run lint from within packages/docs.","head":"'$HEAD_BRANCH'","base":"'$BASE_BRANCH'"}')
+
+          PR_URL=$(echo $PR_RESPONSE | jq -r .html_url)
+          echo "Pull Request created: $PR_URL"
