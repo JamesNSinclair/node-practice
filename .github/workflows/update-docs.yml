@@ -31,6 +31,16 @@ jobs:
           git add .
           git diff-index --quiet HEAD || git commit -m "Add or update API docs [skip ci]"
 
+      - name: Remove Existing Remote
+        run: |
+            echo "Starting this part 2"
+            REMOTE_NAME="other_repo"
+        
+            if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
+              echo "Removing existing remote"
+              git remote remove $REMOTE_NAME
+            fi
+
       - name: Push Changes
         run: |
          echo "Starting this part 1"
