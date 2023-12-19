@@ -46,7 +46,7 @@ jobs:
          echo "Starting this part 1"
           git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo
           echo "Starting this part 2"
-          cp index.js clonedFolder/ -f
+          cp packages/docs/apis clonedFolder/ -f
           cd clonedFolder
           git add .
           git commit -m "this is a test"
