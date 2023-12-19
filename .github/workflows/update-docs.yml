@@ -44,7 +44,7 @@ jobs:
       - name: Push Changes
         run: |
          echo "Starting this part 1"
-         git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo
+         git clone other_repo https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo
           echo "Starting this part 2"
           git push other_repo
       - name: Create Pull Request
