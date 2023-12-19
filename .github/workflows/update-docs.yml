@@ -34,11 +34,12 @@ jobs:
       - name: Push Changes
         run: |
          echo "Starting this part 1"
-          git remote add other_repo https:/github.com/jamesnsinclair/pern-todo.git
+          git remote add other_repo https://github.com/jamesnsinclair/pern-todo.git
+          echo "Starting this part 2"
           git push other_repo
       - name: Create Pull Request
         run: |
-          echo "Starting this part 2"
+          echo "Starting this part 3"
           ACCESS_TOKEN=${{ secrets.GH_TOKEN }}
           REPO_OWNER="JamesNSinclair"
           REPO_NAME="pern-todo"
