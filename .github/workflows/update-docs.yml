@@ -3,7 +3,7 @@ name: "Update API Docs and Create PR"
 on:
   push:
     branches:
-      - master  # Adjust this branch based on your main branch name
+      - main  # Adjust this branch based on your main branch name
 
 jobs:
   update-docs:
@@ -43,8 +43,8 @@ jobs:
           ACCESS_TOKEN="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"
           REPO_OWNER="JamesNSinclair"
           REPO_NAME="pern-todo"
-          BASE_BRANCH="master"
-          HEAD_BRANCH="master"
+          BASE_BRANCH="main"
+          HEAD_BRANCH="main"
           PR_RESPONSE=$(curl -X POST \
             -H "Authorization: Bearer $ACCESS_TOKEN" \
             -H "Accept: application/vnd.github.v3+json" \
