@@ -3,7 +3,7 @@ name: "Update API Docs and Create PR"
 on:
   push:
     branches:
-      - main  # Adjust this branch based on your main branch name
+      - master  # Adjust this branch based on your main branch name
 
 jobs:
   update-docs:
