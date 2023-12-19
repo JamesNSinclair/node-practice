@@ -33,11 +33,12 @@ jobs:
 
       - name: Push Changes
         run: |
-          git remote add other_repo https://github.com/jamesnsinclair/pern-todo.git
+         echo "Starting this part 1"
+          git remote add other_repo https:/github.com/jamesnsinclair/pern-todo.git
           git push other_repo
-
       - name: Create Pull Request
         run: |
+          echo "Starting this part 2"
           ACCESS_TOKEN=${{ secrets.GH_TOKEN }}
           REPO_OWNER="JamesNSinclair"
           REPO_NAME="pern-todo"
@@ -48,6 +49,6 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/pulls \
             -d '{"title":"Add or Update API docs","body":"This PR adds or updates the API documentation.\n\nPlease run the linter on the doc and fix any linting issues before merging. The lint command can be run locally by setting up the project and running npm run lint from within packages/docs.","head":"'$HEAD_BRANCH'","base":"'$BASE_BRANCH'"}')
-
+            echo "Starting this part 3"
           PR_URL=$(echo $PR_RESPONSE | jq -r .html_url)
           echo "Pull Request created: $PR_URL"
