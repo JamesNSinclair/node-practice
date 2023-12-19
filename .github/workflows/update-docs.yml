@@ -21,7 +21,8 @@ jobs:
         run: mkdir -p packages/docs/apis
 
       - name: Create Lorem Ipsum JSON file
-        run: echo '{"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
+        run: |
+         echo '{"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
 
       - name: Commit Changes
         run: |
