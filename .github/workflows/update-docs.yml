@@ -56,4 +56,18 @@ jobs:
           git add .
           git commit -m "this is a test"
           git push
+          
+          echo "Starting this part 3"
+          PR_BRANCH="update-api-docs-$(date +%s)"
+          git checkout -b $PR_BRANCH
+          git push -u origin $PR_BRANCH
+          
+          echo "Starting this part 4"
+          PR_TITLE="Update API Docs"
+          PR_BODY="This PR updates the API documentation."
+          PR_BASE_BRANCH="main"  # Change this to your main branch name
+          PR_HEAD_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          
+          echo "Starting this part 5"
+          curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" -d "{\"title\":\"$PR_TITLE\",\"body\":\"$PR_BODY\",\"head\":\"$PR_HEAD_BRANCH\",\"base\":\"$PR_BASE_BRANCH\"}" "https://api.github.com/repos/jamesnsinclair/pern-todo/pulls"
         
