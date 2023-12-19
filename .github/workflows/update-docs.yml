@@ -1,4 +1,4 @@
-name: Update API Docs and Create PR
+name: "Update API Docs and Create PR"
 
 on:
   push:
@@ -18,11 +18,11 @@ jobs:
           # Add your document generation or update commands here 
 
       - name: Create directories
-        run: mkdir -p packages/docs/apis
+        run: "mkdir -p packages/docs/apis"
 
       - name: Create Lorem Ipsum JSON file
         run: |
-         echo '{"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
+          echo '{"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
 
       - name: Commit Changes
         run: |
@@ -34,7 +34,7 @@ jobs:
       - name: Push Changes
         run: |
           git remote add other_repo https://github.com/jamesnsinclair/pern-todo.git
-          git push other_repo master
+          git push other_repo
 
       - name: Create Pull Request
         run: |
