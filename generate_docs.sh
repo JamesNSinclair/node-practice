@@ -13,7 +13,7 @@ read -p "Enter a secondary contact name: " SECONDARY_CONTACT_NAME
 read -p "Enter the contact email for \`$SECONDARY_CONTACT_NAME\`: " SECONDARY_CONTACT_EMAIL
 
 # Set the documentation file path
-DOCUMENTATION_PATH="docs/graphql-api"
+DOCUMENTATION_PATH="docs/schema"
 DOCUMENTATION_FILE="$DOCUMENTATION_PATH/index.md"
 
 # Create the directory if it doesn't exist
