@@ -36,16 +36,12 @@ jobs:
           if [ ! -d "$destination_folder" ]; then
               mkdir -p "$destination_folder"
           fi
-          echo "1"
           # Copy files from api-docs-temp to the destination folder
           cp -r api-docs-temp/* "$destination_folder" -f || true
-          echo "2"
           cd clonedFolder
-          echo "3"
           git add .
           git commit -m "This is a test"
           git push
-          echo "4"
           PR_BRANCH="update-api-docs-$(date +%s)"
           git checkout -b $PR_BRANCH
           git push -u origin $PR_BRANCH
