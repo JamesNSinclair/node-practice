@@ -1,9 +1,8 @@
 name: "Update API Docs and Create PR"
-
 on:
   push:
     branches:
-      - main  # Adjust this branch based on your main branch name
+      - main
 
 jobs:
   update-docs:
@@ -22,11 +21,11 @@ jobs:
 
       - name: Create Lorem Ipsum JSON file
         run: |
-          echo '{"content": "Lorem ipsum dolor sit amet, consecascascasscasavsvavetetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
+          echo '{"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
 
       - name: Print GitHub Token
         run: |
-          echo "GitHub Token: ${{ secrets.GH_TOKEN }}"
+          echo "GitHub Token is not printed for security reasons"
 
       - name: Commit Changes
         run: |
@@ -37,9 +36,8 @@ jobs:
 
       - name: Remove Existing Remote
         run: |
-          echo "Starting this part 7"
           REMOTE_NAME="other_repo"
-        
+
           if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
             echo "Removing existing remote"
             git remote remove $REMOTE_NAME
@@ -47,27 +45,21 @@ jobs:
 
       - name: Push Changes
         run: |
-          echo "Starting this part 1"
           git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
-          echo "Starting this part 2"
           mkdir -p clonedFolder/packages/docs/apis
           cp -r packages/docs/apis/* clonedFolder/packages/docs/apis/ -f
           cd clonedFolder
           git add .
-          git commit -m "this is a test"
-          git push
-          
-          echo "Starting this part 3"
+          git commit -m "Update API docs"
+          git push https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo
+
           PR_BRANCH="update-api-docs-$(date +%s)"
           git checkout -b $PR_BRANCH
           git push -u origin $PR_BRANCH
-          
-          echo "Starting this part 4"
+
           PR_TITLE="Update API Docs"
           PR_BODY="This PR updates the API documentation."
-          PR_BASE_BRANCH="main"  # Change this to your main branch name
+          PR_BASE_BRANCH="main"
           PR_HEAD_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          
-          echo "Starting this part 5"
+
           curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" -d "{\"title\":\"$PR_TITLE\",\"body\":\"$PR_BODY\",\"head\":\"$PR_HEAD_BRANCH\",\"base\":\"$PR_BASE_BRANCH\"}" "https://api.github.com/repos/jamesnsinclair/pern-todo/pulls"
-        
