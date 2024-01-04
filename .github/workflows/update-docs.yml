@@ -40,9 +40,9 @@ jobs:
           echo "Project Name: $project_name"
         
           git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
-          mkdir -p clonedFolder/packages/docs/graphql-api
+          mkdir -p clonedFolder/packages/docs/graphql-api/$project_name
           shopt -s nullglob
-          cp -r api-docs-temp/* "clonedFolder/packages/docs/graphql-api/$project_name" -f
+          cp -r api-docs-temp/* "clonedFolder/packages/docs/graphql-api/$project_name" -f || true
           shopt -u nullglob
           cd clonedFolder
           git add .
@@ -62,4 +62,5 @@ jobs:
 
       - name: Move Files Back to Original Locations
         run: |
-          mkdir -p packages/docs/
+          mkdir -p packages/docs/graphql-api/schema/
+          mv api-docs-temp/* packages/docs/graphql-api/schema/ || true
