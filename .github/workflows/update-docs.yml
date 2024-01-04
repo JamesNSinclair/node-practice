@@ -41,7 +41,7 @@ jobs:
         
           git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
           mkdir -p clonedFolder/packages/docs/graphql-api
-          cp -r api-docs-temp/* "clonedFolder/packages/docs/graphql-api/$project_name" -f
+          cp -r api-docs-temp/* "clonedFolder/packages/docs/graphql-api/$project_name" -f || true
           cd clonedFolder
           git add .
           git commit -m "This is a test"
@@ -60,5 +60,5 @@ jobs:
 
       - name: Move Files Back to Original Locations
         run: |
-          mv api-docs-temp/index.md packages/docs/graphql-api/schema/
-          mv api-docs-temp/schema-graphql* packages/docs/graphql-api/schema/ || true
+          mkdir -p packages/docs/graphql-api/schema/
+          mv api-docs-temp/* packages/docs/graphql-api/schema/ || true
