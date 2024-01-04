@@ -26,7 +26,12 @@ jobs:
       - name: Check for Changes
         id: check_changes
         run: |
-          git diff --quiet || echo "::set-output name=changes::true"
+          current_directory=$(pwd)
+          project_name=$(basename "$current_directory")
+          remote_changes=$(git ls-remote --exit-code https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo.git $project_name/main && echo "true" || echo "false")
+          if [ "$remote_changes" == "true" ]; then
+            echo "::set-output name=changes::true"
+          fi
 
       - name: Push Changes
         if: steps.check_changes.outputs.changes == 'true'
