@@ -15,7 +15,7 @@ jobs:
 
       - name: Move Schema Files to Temporary Folder
         run: |
-          mv packages/docs/graphql-api/schema/index.md api-docs-temp/ || true
+          mv packages/docs/graphql-api/schema/index.md api-docs-temp/  || true
           mv packages/docs/graphql-api/schema-graphql* api-docs-temp/ || true
 
       - name: Commit Changes
@@ -40,10 +40,16 @@ jobs:
           echo "Project Name: $project_name"
         
           git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
-          mkdir -p clonedFolder/packages/docs/graphql-api/$project_name
-          shopt -s nullglob
-          cp -r api-docs-temp/* "clonedFolder/packages/docs/graphql-api/$project_name" -f || true
-          shopt -u nullglob
+          
+          # Check if the destination folder exists, and create it if not
+          destination_folder="clonedFolder/packages/docs/graphql-api/$project_name"
+          if [ ! -d "$destination_folder" ]; then
+              mkdir -p "$destination_folder"
+          fi
+          
+          # Copy files from api-docs-temp to the destination folder
+          cp -r api-docs-temp/* "$destination_folder" -f || true
+          
           cd clonedFolder
           git add .
           git commit -m "This is a test"
