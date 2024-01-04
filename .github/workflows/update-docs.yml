@@ -23,7 +23,13 @@ jobs:
           mv docs/schema/index.md api-docs-temp/  || true
           mv /schema-graphql* api-docs-temp/ || true
 
+      - name: Check for Changes
+        id: check_changes
+        run: |
+          git diff --quiet || echo "::set-output name=changes::true"
+
       - name: Push Changes
+        if: steps.check_changes.outputs.changes == 'true'
         run: |
           current_directory=$(pwd)
           project_name=$(basename "$current_directory")
