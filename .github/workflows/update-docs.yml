@@ -10,6 +10,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set Git Identity
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+
       - name: Create Temporary Folder
         run: mkdir api-docs-temp
 
