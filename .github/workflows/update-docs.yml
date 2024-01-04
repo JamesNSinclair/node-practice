@@ -12,6 +12,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Confirm Push
+        run: |
+          read -p "Are you sure you want to push changes? (yes/no): " CONFIRMATION
+          if [ "$CONFIRMATION" != "yes" ]; then
+            echo "Push cancelled."
+            exit 0
+          fi
+
       - name: Generate or Update Documents
         run: |
           echo "Starting this part 1"
@@ -41,14 +49,6 @@ jobs:
           if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
             echo "Removing existing remote"
             git remote remove $REMOTE_NAME
-          fi
-
-      - name: Confirm Push
-        run: |
-          read -p "Are you sure you want to push changes? (yes/no): " CONFIRMATION
-          if [ "$CONFIRMATION" != "yes" ]; then
-            echo "Push cancelled."
-            exit 0
           fi
 
       - name: Push Changes
