@@ -10,58 +10,57 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Extract Project Name
+        id: extract_project_name
+        run: echo "::set-output name=PROJECT_NAME::$(basename ${GITHUB_REF})"
 
       - name: Generate or Update Documents
         run: |
-         
-      # Placeholder for generating docs #
-      - name: Create directories
-        run: "mkdir -p packages/docs/apis"
+          # Placeholder for generating docs #
+          - name: Create directories
+            run: "mkdir -p packages/docs/graph-api/${{ steps.extract_project_name.outputs.PROJECT_NAME }}"
 
-      - name: Create Lorem Ipsum JSON file
-        run: |
-          echo '{"content": "Lorem ipsufffm dolor siefffft amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
-      # ! End of Place holder ! #
+          - name: Create Lorem Ipsum JSON file
+            run: |
+              echo '{"content": "Lorem ipsufffm dolor siefffft amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/graph-api/${{ steps.extract_project_name.outputs.PROJECT_NAME }}/lorem_ipsum.json
+          # ! End of Place holder ! #
 
-      - name: Commit Changes
-        run: |
-        
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          if git diff --quiet; then
-          echo "No changes to commit."
-          else
-          git add .
-          git commit -m "Add or update API docs [skip ci]"
-          fi
+          - name: Commit Changes
+            run: |
+              git config --global user.name "GitHub Actions"
+              git config --global user.email "actions@github.com"
+              if git diff --quiet; then
+                echo "No changes to commit."
+              else
+                git add .
+                git commit -m "Add or update API docs [skip ci]"
+              fi
 
-      - name: Remove Existing Remote
-        run: |
-          REMOTE_NAME="other_repo"
-        
-          if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
-            echo "Removing existing remote"
-            git remote remove $REMOTE_NAME
-          fi
+          - name: Remove Existing Remote
+            run: |
+              REMOTE_NAME="other_repo"
+              if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
+                echo "Removing existing remote"
+                git remote remove $REMOTE_NAME
+              fi
 
-      - name: Push Changes
-        run: |
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
-          mkdir -p clonedFolder/packages/docs/apis
-          cp -r packages/docs/apis/* clonedFolder/packages/docs/apis/ -f
-          cd clonedFolder
-          git add .
-          git commit -m "this is a test"
-          git push
-          
-          PR_BRANCH="update-api-docs-$(date +%s)"
-          git checkout -b $PR_BRANCH
-          git push -u origin $PR_BRANCH
-          
-          PR_TITLE="Update API Docs"
-          PR_BODY="This PR updates the API documentation."
-          PR_BASE_BRANCH="main"  # Change this to your main branch name
-          PR_HEAD_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          
-          curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" -d "{\"title\":\"$PR_TITLE\",\"body\":\"$PR_BODY\",\"head\":\"$PR_HEAD_BRANCH\",\"base\":\"$PR_BASE_BRANCH\"}" "https://api.github.com/repos/jamesnsinclair/pern-todo/pulls"
-        
+          - name: Push Changes
+            run: |
+              git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
+              mkdir -p clonedFolder/packages/docs/graph-api/${{ steps.extract_project_name.outputs.PROJECT_NAME }}
+              cp -r packages/docs/graph-api/${{ steps.extract_project_name.outputs.PROJECT_NAME }}/* clonedFolder/packages/docs/graph-api/${{ steps.extract_project_name.outputs.PROJECT_NAME }}/ -f
+              cd clonedFolder
+              git add .
+              git commit -m "this is a test"
+              git push
+              
+              PR_BRANCH="update-api-docs-$(date +%s)"
+              git checkout -b $PR_BRANCH
+              git push -u origin $PR_BRANCH
+              
+              PR_TITLE="Update API Docs"
+              PR_BODY="This PR updates the API documentation."
+              PR_BASE_BRANCH="main"  # Change this to your main branch name
+              PR_HEAD_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+              
+              curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" -d "{\"title\":\"$PR_TITLE\",\"body\":\"$PR_BODY\",\"head\":\"$PR_HEAD_BRANCH\",\"base\":\"$PR_BASE_BRANCH\"}" "https://api.github.com/repos/jamesnsinclair/pern-todo/pulls"
