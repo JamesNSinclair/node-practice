@@ -10,12 +10,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Create Temporary Folder
+        run: mkdir api-docs-temp
+
+      - name: Move Schema Files to Temporary Folder
+        run: |
+          mv packages/docs/graphql-api/schema/index.md api-docs-temp/
+          mv packages/docs/graphql-api/schema-graphql* api-docs-temp/ || true
+
       - name: Commit Changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add .
           git diff-index --quiet HEAD || git commit -m "Add or update API docs [skip ci]"
+
       - name: Remove Existing Remote
         run: |
           REMOTE_NAME="other_repo"
@@ -23,6 +32,7 @@ jobs:
             echo "Removing existing remote"
             git remote remove $REMOTE_NAME
           fi
+
       - name: Push Changes
         run: |
           current_directory=$(pwd)
@@ -31,7 +41,7 @@ jobs:
         
           git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
           mkdir -p clonedFolder/packages/docs/graphql-api
-          cp -r packages/docs/graphql-api/* "clonedFolder/packages/docs/graphql-api/$project_name" -f
+          cp -r api-docs-temp/* "clonedFolder/packages/docs/graphql-api/$project_name" -f
           cd clonedFolder
           git add .
           git commit -m "This is a test"
@@ -47,3 +57,8 @@ jobs:
           PR_HEAD_BRANCH=$(git rev-parse --abbrev-ref HEAD)
           
           curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" -d "{\"title\":\"$PR_TITLE\",\"body\":\"$PR_BODY\",\"head\":\"$PR_HEAD_BRANCH\",\"base\":\"$PR_BASE_BRANCH\"}" "https://api.github.com/repos/jamesnsinclair/pern-todo/pulls"
+
+      - name: Move Files Back to Original Locations
+        run: |
+          mv api-docs-temp/index.md packages/docs/graphql-api/schema/
+          mv api-docs-temp/schema-graphql* packages/docs/graphql-api/schema/ || true
