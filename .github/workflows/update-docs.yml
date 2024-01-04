@@ -15,7 +15,7 @@ jobs:
 
       - name: Move Schema Files to Temporary Folder
         run: |
-          mv packages/docs/graphql-api/schema/index.md api-docs-temp/
+          mv packages/docs/graphql-api/schema/index.md api-docs-temp/  || true
           mv packages/docs/graphql-api/schema-graphql* api-docs-temp/ || true
 
       - name: Commit Changes
