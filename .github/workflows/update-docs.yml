@@ -15,23 +15,8 @@ jobs:
 
       - name: Move Schema Files to Temporary Folder
         run: |
-          mv packages/docs/graphql-api/schema/index.md api-docs-temp/  || true
-          mv packages/docs/graphql-api/schema-graphql* api-docs-temp/ || true
-
-      - name: Commit Changes
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add .
-          git diff-index --quiet HEAD || git commit -m "Add or update API docs [skip ci]"
-
-      - name: Remove Existing Remote
-        run: |
-          REMOTE_NAME="other_repo"
-          if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
-            echo "Removing existing remote"
-            git remote remove $REMOTE_NAME
-          fi
+          mv docs/schema/index.md api-docs-temp/  || true
+          mv /schema-graphql* api-docs-temp/ || true
 
       - name: Push Changes
         run: |
