@@ -43,6 +43,14 @@ jobs:
             git remote remove $REMOTE_NAME
           fi
 
+      - name: Confirm Push
+        run: |
+          read -p "Are you sure you want to push changes? (yes/no): " CONFIRMATION
+          if [ "$CONFIRMATION" != "yes" ]; then
+            echo "Push cancelled."
+            exit 0
+          fi
+
       - name: Push Changes
         run: |
           git clone https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo clonedFolder || true
