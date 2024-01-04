@@ -1,51 +1,44 @@
 name: "Update API Docs and Create PR"
+
 on:
   push:
     branches:
-      - main
+      - main  # Adjust this branch based on your main branch name
 
 jobs:
   update-docs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Confirm Push
-        run: |
-          read -p "Are you sure you want to push changes? (yes/no): " CONFIRMATION
-          if [ "$CONFIRMATION" != "yes" ]; then
-            echo "Push cancelled."
-            exit 0
-          fi
 
       - name: Generate or Update Documents
         run: |
-          echo "Starting this part 1"
-
+         
+      # Placeholder for generating docs #
       - name: Create directories
         run: "mkdir -p packages/docs/apis"
 
       - name: Create Lorem Ipsum JSON file
         run: |
-          echo '{"content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
-
-      - name: Print GitHub Token
-        run: |
-          echo "GitHub Token is not printed for security reasons"
+          echo '{"content": "Lorem ipsum dolor siefffft amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."}' > packages/docs/apis/lorem_ipsum.json
+      # ! End of Place holder ! #
 
       - name: Commit Changes
         run: |
+        
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          if git diff --quiet; then
+          echo "No changes to commit."
+          else
           git add .
-          git diff-index --quiet HEAD || git commit -m "Add or update API docs [skip ci]"
+          git commit -m "Add or update API docs [skip ci]"
+          fi
 
       - name: Remove Existing Remote
         run: |
           REMOTE_NAME="other_repo"
-
+        
           if git remote get-url $REMOTE_NAME >/dev/null 2>&1; then
             echo "Removing existing remote"
             git remote remove $REMOTE_NAME
@@ -58,16 +51,17 @@ jobs:
           cp -r packages/docs/apis/* clonedFolder/packages/docs/apis/ -f
           cd clonedFolder
           git add .
-          git commit -m "Update API docs"
-          git push https://${{ secrets.GH_TOKEN }}@github.com/jamesnsinclair/pern-todo
-
+          git commit -m "this is a test"
+          git push
+          
           PR_BRANCH="update-api-docs-$(date +%s)"
           git checkout -b $PR_BRANCH
           git push -u origin $PR_BRANCH
-
+          
           PR_TITLE="Update API Docs"
           PR_BODY="This PR updates the API documentation."
-          PR_BASE_BRANCH="main"
+          PR_BASE_BRANCH="main"  # Change this to your main branch name
           PR_HEAD_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
+          
           curl -X POST -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" -d "{\"title\":\"$PR_TITLE\",\"body\":\"$PR_BODY\",\"head\":\"$PR_HEAD_BRANCH\",\"base\":\"$PR_BASE_BRANCH\"}" "https://api.github.com/repos/jamesnsinclair/pern-todo/pulls"
+        
